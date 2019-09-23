@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
     private Cursor cursor;
 
+    //HOLA
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
