@@ -12,8 +12,6 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
     private Cursor cursor;
 
-    //HOLA
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,19 +25,33 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Miguel')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Martin')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Ruben')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Jorge')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Priscila')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Daniel')");
-        sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Juan')");
+        sqLiteDatabase.beginTransaction();
+        try{
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Miguel2')");
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Martin2')");
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Ruben2')");
 
-        cursor = sqLiteDatabase.rawQuery("SELECT * FROM prueba", null);
+//        SIMULAR UN ERROR
+//            int i = 1 / 0;
+
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Jorge2')");
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Priscila2')");
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Daniel2')");
+            sqLiteDatabase.execSQL("INSERT INTO prueba(algo) VALUES ('Juan2')");
+            sqLiteDatabase.setTransactionSuccessful();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            sqLiteDatabase.endTransaction();
+        }
+
+//        EL ARGS SIRVE PARA MANDAR ARGUMENTOS EN LA  SQL - CADA DATO DEL ARREGLO ES UN ? EN LA SQL
+        String [] args = {"Miguel"};
+        cursor = sqLiteDatabase.rawQuery("SELECT * FROM prueba WHERE algo = ?", args);
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            Log.wtf("cursor:",cursor.getString(cursor.getColumnIndex("algo")));
+            Log.wtf("cursor",cursor.getString(cursor.getColumnIndex("algo")));
             cursor.moveToNext();
         }
     }
