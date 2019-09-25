@@ -1,6 +1,7 @@
 package com.example.miguel.eva2_3_content_values;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private EditText txtNom, txtApe;
-    private TextView txtScroll;
+    private TextView txtData;
     private Button btnInsert;
 
     private SQLiteDatabase sqLiteDatabase;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         btnInsert = findViewById(R.id.btnInsert);
         txtNom = findViewById(R.id.txtNom);
         txtApe = findViewById(R.id.txtApe);
-        txtScroll = findViewById(R.id.txtScroll);
+        txtData = findViewById(R.id.txtScroll);
 
         sqLiteDatabase = openOrCreateDatabase("db_prueba", MODE_PRIVATE, null);
 
@@ -43,7 +45,21 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put("nombre", txtNom.getText().toString());
                 contentValues.put("apellido", txtApe.getText().toString());
                 sqLiteDatabase.insert("datos",null,contentValues);
-//                contentValues.clear();
+
+                cursor = sqLiteDatabase.rawQuery("SELECT * FROM datos", null);
+                cursor.moveToFirst();
+
+                while(!cursor.isAfterLast()){
+                    if(cursor.isLast()){
+                        txtData.append(cursor.getString(cursor.getColumnIndex("nombre"))+" ");
+                        txtData.append(cursor.getString(cursor.getColumnIndex("apellido")));
+                        txtData.append("\n");
+                    }
+                    cursor.moveToNext();
+                }
+
+                txtNom.setText("");
+                txtApe.setText("");
             }
         });
     }
