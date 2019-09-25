@@ -47,16 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 sqLiteDatabase.insert("datos",null,contentValues);
 
                 cursor = sqLiteDatabase.rawQuery("SELECT * FROM datos", null);
-                cursor.moveToFirst();
-
-                while(!cursor.isAfterLast()){
-                    if(cursor.isLast()){
-                        txtData.append(cursor.getString(cursor.getColumnIndex("nombre"))+" ");
-                        txtData.append(cursor.getString(cursor.getColumnIndex("apellido")));
-                        txtData.append("\n");
-                    }
-                    cursor.moveToNext();
-                }
+                cursor.moveToLast();
+                txtData.append(cursor.getString(cursor.getColumnIndex("nombre"))+" ");
+                txtData.append(cursor.getString(cursor.getColumnIndex("apellido")));
+                txtData.append("\n");
 
                 txtNom.setText("");
                 txtApe.setText("");
