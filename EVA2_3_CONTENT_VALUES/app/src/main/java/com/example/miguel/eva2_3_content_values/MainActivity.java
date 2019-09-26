@@ -38,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        cursor = sqLiteDatabase.rawQuery("SELECT * FROM datos", null);
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()){
+            txtData.append(cursor.getString(cursor.getColumnIndex("nombre"))+" ");
+            txtData.append(cursor.getString(cursor.getColumnIndex("apellido")));
+            txtData.append("\n");
+            cursor.moveToNext();
+        }
+
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
