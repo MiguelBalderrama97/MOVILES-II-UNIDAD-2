@@ -1,6 +1,5 @@
 package com.example.miguel.eva2_4_sql_adapter;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         sqLiteDatabase.execSQL("INSERT INTO prueba(dato) VALUES ('TOREADOS')");
         sqLiteDatabase.execSQL("INSERT INTO prueba(dato) VALUES ('TORTILLAS')");
 
-        cursor = sqLiteDatabase.rawQuery("SELECT * FROM prueba ORDER BY dato",null);
+        cursor = sqLiteDatabase.rawQuery("SELECT id as _id, dato FROM prueba ORDER BY dato",null);
         listData.setAdapter(new MyCursorAdapter(this, cursor));
     }
 }
